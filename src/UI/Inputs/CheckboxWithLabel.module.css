@@ -1,0 +1,53 @@
+.checkboxLabel {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.95rem;
+  color: var(--text-color);
+  cursor: pointer;
+  user-select: none;
+}
+
+.checkbox {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+/* Custom checkbox UI */
+.customCheck {
+  width: 16px;
+  height: 16px;
+  border: 2px solid var(--accent-color);
+  border-radius: 4px;
+  display: inline-block;
+  position: relative;
+  transition: background-color 0.2s, border-color 0.2s;
+}
+
+/* Checkmark */
+.checkbox:checked + .customCheck::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 4px;
+  height: 8px;
+  border: solid white;
+  border-width: 0 2px 2px 0;
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+
+/* Background when checked */
+.checkbox:checked + .customCheck {
+  background-color: var(--accent-color);
+  border-color: var(--accent-color);
+}
+
+/* 🔍 Focus ring */
+.checkbox:focus-visible + .customCheck {
+  outline: 2px solid var(--accent-color);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent-color) 40%, transparent);
+}
