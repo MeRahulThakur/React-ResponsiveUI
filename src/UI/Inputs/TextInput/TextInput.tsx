@@ -8,11 +8,13 @@ interface TextInputProps extends InputHTMLAttributes<HTMLInputElement> {
   label?: string;
   id?: string;
   required?: boolean;
+  isValid?: boolean;
 }
 
 const TextInput: React.FC<TextInputProps> = ({ 
   onChange,
   onValueChange,
+  isValid = true,
   label,
   id,
   required,
@@ -33,7 +35,8 @@ const TextInput: React.FC<TextInputProps> = ({
       )}
       <input
         id={inputId}
-        className={styles.input}
+        className={`${styles.input} ${!isValid ? styles.invalid : ''}`}
+        aria-invalid={!isValid}
         type="text"
         onChange={handleChange}
         required={required}
