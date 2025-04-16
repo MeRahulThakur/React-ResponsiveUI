@@ -1,13 +1,14 @@
 .footer {
-  color: #727272;
-  text-align: right;
-  padding: 0.4rem 1.2rem;
-  width: 100%;
-  height: 2.5rem;
+  background-color: var(--footer-bg);
+  color: var(--footer-text);
+  padding: 1rem;
+  text-align: center;
+  justify-items: flex-end;
 }
 
 .sticky {
   position: fixed;
   bottom: 0;
-  left: 0;
+  /* left: 0; */
+  width: 100%;
 }
