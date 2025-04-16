@@ -1,4 +1,5 @@
 import React, { JSX, useEffect, useRef } from 'react';
+import { NavLink } from 'react-router-dom';
 import './SidebarMenu.css';
 import { FiMessageSquare, FiClock, FiSettings, FiX } from 'react-icons/fi';
 import ThemeToggle from '../Theme/ThemeToggle';
@@ -7,6 +8,7 @@ type MenuItem = {
   id: number;
   label: string;
   icon: JSX.Element;
+  path: string;
 };
 
 interface SidebarMenuProps {
@@ -15,9 +17,9 @@ interface SidebarMenuProps {
 }
 
 const menuItems: MenuItem[] = [
-  { id: 1, label: 'Menu Item 1', icon: <FiMessageSquare /> },
-  { id: 2, label: 'Menu Item 2', icon: <FiClock /> },
-  { id: 3, label: 'Settings', icon: <FiSettings /> },
+  { id: 1, label: 'Design System', icon: <FiMessageSquare />, path: '/design-system' },
+  { id: 2, label: 'Form page', icon: <FiClock />, path: '/form' },
+  { id: 3, label: 'Settings', icon: <FiSettings />, path: '/settings' },
 ];
 
 const SidebarMenu: React.FC<SidebarMenuProps> = ({ isOpen, onClose }) => {
@@ -51,14 +53,20 @@ const SidebarMenu: React.FC<SidebarMenuProps> = ({ isOpen, onClose }) => {
       <ul className="sidebar-list">
         {menuItems.map((item) => (
           <li key={item.id} className="sidebar-item">
-            <button
+            {/* <button
               tabIndex={isOpen ? 0 : -1}
               className="sidebar-link"
               aria-label={item.label}
+            > */}
+            <NavLink
+              to={item.path}
+              className={({ isActive }) => isActive ? 'sidebar-link active' : 'sidebar-link'}
+              onClick={onClose}
             >
               <span className="icon">{item.icon}</span>
               <span className="label">{item.label}</span>
-            </button>
+            </NavLink>
+            {/* </button> */}
           </li>
         ))}
       </ul>

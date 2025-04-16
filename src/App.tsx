@@ -1,10 +1,12 @@
 import { useState } from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import './App.css'
 import Footer from './UI/Footer'
 import Header from './UI/Header'
 import SidebarMenu from './UI/SidebarMenu';
-import Accordion from './UI/Accordion/Accordion';
-import Button from './UI/Button';
+import DesignSystemPage from './pages/DesignSystemPage';
+import FormPage from './pages/FormPage';
+import SettingsPage from './pages/SettingsPage';
 
 const PageLayout: React.FC = () => {
   const [isSidebarOpen, setSidebarOpen] = useState(false);
@@ -25,18 +27,12 @@ const PageLayout: React.FC = () => {
         }}
       >
         <Header isSticky onMenuToggle={toggleSidebar} />
-        <main style={{ flex: 1, padding: '1rem' }}>
-          <h1>Design System</h1>
-          <h2>Accordion</h2>
-          <Accordion />
-          <h2>Buttons</h2>
-          <div style={{display:'flex', gap: '1rem'}}>
-            <Button variant="contained" color="danger" onClick={() => {}}>Delete</Button>
-            <Button variant="outlined" color="success" onClick={() => {}}>Success</Button>
-            <Button variant="text" color="default" onClick={() => {}}>Cancel</Button>
-            <Button variant="contained" color="default" onClick={() => {}} loading>Loading</Button>
-          </div>
-
+        <main style={{ flex: 1, padding: '1rem', marginBottom: '3.5rem' }}>
+          <Routes>
+            <Route path="/design-system" element={<DesignSystemPage />} />
+            <Route path="/form" element={<FormPage />} />
+            <Route path="/settings" element={<SettingsPage />} />
+          </Routes>
         </main>
         <Footer isSticky />
       </div>
@@ -47,9 +43,9 @@ const PageLayout: React.FC = () => {
 function App() {
 
   return (
-    <>
+    <Router>
       <PageLayout />
-    </>
+    </Router>
   )
 }
 

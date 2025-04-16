@@ -63,6 +63,7 @@
   padding: 0.3rem 1rem;
   cursor: pointer;
   transition: background 0.2s ease;
+  margin-bottom: 1rem;
 }
 
 .sidebar-item:hover {
@@ -85,8 +86,21 @@
   font: inherit;
   width: 100%;
   text-align: left;
-  padding: 0.5rem 0.75rem; /* reduced padding */
+  padding: 0.6rem 0.75rem; /* reduced padding */
   line-height: 1.4;
+  text-decoration: none;
+  border-radius: 8px;
+}
+
+.sidebar-link:hover,
+.sidebar-link:focus-visible {
+  background-color: color-mix(in srgb, var(--accent-color) 10%, transparent);
+  outline: none;
+}
+
+.sidebar-link.active {
+  background-color: var(--accent-color);
+  color: white;
 }
 
 .sidebar-link:focus {
