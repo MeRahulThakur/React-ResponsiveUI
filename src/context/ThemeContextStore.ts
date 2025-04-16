@@ -4,7 +4,9 @@ export type Theme = 'light' | 'dark';
 
 interface ThemeContextType {
   theme: Theme;
+  isSystem: boolean;
   toggleTheme: () => void;
+  toggleSystem: () => void;
 }
 
 // 👇 This file is OK to export non-components from

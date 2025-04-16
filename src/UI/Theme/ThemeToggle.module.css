@@ -27,6 +27,7 @@
   right: 0;
   bottom: 0;
   background-color: #ccc;
+  transition: background-color 0.2s;
   border-radius: 24px;
   transition: background-color 0.3s;
 }
@@ -44,9 +45,56 @@
 }
 
 input:checked + .slider {
-  background-color: #4f46e5;
+  background-color: var(--accent-color);
 }
 
 input:checked + .slider:before {
   transform: translateX(20px);
+}
+
+.systemLabel {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-left: 0.75rem;
+  font-size: 0.9rem;
+  cursor: pointer;
+  user-select: none;
+  position: relative;
+}
+
+.systemLabel input[type="checkbox"] {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 16px;
+  height: 16px;
+  border: 2px solid var(--accent-color);
+  border-radius: 4px;
+  background-color: transparent;
+  cursor: pointer;
+  position: relative;
+  transition: all 0.2s ease-in-out;
+}
+
+.systemLabel input[type="checkbox"]:checked {
+  background-color: var(--accent-color);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent-color) 50%, transparent);
+}
+
+.systemLabel input[type="checkbox"]::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 4px;
+  height: 8px;
+  border: solid white;
+  border-width: 0 2px 2px 0;
+  transform: translate(-50%, -50%) rotate(45deg);
+  opacity: 0;
+  transition: opacity 0.1s ease-in-out;
+}
+
+.systemLabel input[type="checkbox"]:checked::after {
+  opacity: 1;
 }

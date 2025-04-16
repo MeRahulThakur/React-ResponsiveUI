@@ -15,6 +15,7 @@
 
   --background: #343541;
   --text-color: #ffffff;
+  --accent-color: #7c54f1;
   transition: all 0.3s ease;
 }
 
@@ -26,4 +27,5 @@
 
   --background: #ffffff;
   --text-color: #1a1a1a;
+  --accent-color: #a78bfae3;
 }
