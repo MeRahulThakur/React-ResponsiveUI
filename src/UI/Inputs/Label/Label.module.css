@@ -1,0 +1,11 @@
+.label {
+  font-size: 0.9rem;
+  color: var(--text-color);
+  font-weight: 500;
+  display: inline-block;
+}
+
+.required {
+  color: var(--accent-color);
+  margin-left: 0.25rem;
+}
