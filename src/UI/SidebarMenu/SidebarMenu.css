@@ -63,7 +63,7 @@
   padding: 0.3rem 1rem;
   cursor: pointer;
   transition: background 0.2s ease;
-  margin-bottom: 1rem;
+  margin-bottom: 0.2rem;
 }
 
 .sidebar-item:hover {
