@@ -1,6 +1,7 @@
-import React, { JSX, useEffect, useState } from 'react';
+import React, { JSX } from 'react';
 import './SidebarMenu.css';
 import { FiMessageSquare, FiClock, FiSettings, FiX } from 'react-icons/fi';
+import ThemeToggle from '../Theme/ThemeToggle';
 
 type MenuItem = {
   id: number;
@@ -20,14 +21,6 @@ const menuItems: MenuItem[] = [
 ];
 
 const SidebarMenu: React.FC<SidebarMenuProps> = ({ isOpen, onClose }) => {
-  const [theme, setTheme] = useState<'light' | 'dark'>('dark');
-
-  useEffect(() => {
-    document.documentElement.setAttribute('data-theme', theme);
-  }, [theme]);
-
-  const toggleTheme = () => setTheme((prev) => (prev === 'dark' ? 'light' : 'dark'));
-
   return (
     <>
       <div className={`sidebar ${isOpen ? 'open' : 'closed'}`}>
@@ -45,9 +38,9 @@ const SidebarMenu: React.FC<SidebarMenuProps> = ({ isOpen, onClose }) => {
             </li>
           ))}
         </ul>
-        <button className="theme-toggle" onClick={toggleTheme}>
-          Switch to {theme === 'dark' ? 'Light' : 'Dark'} Mode
-        </button>
+        <span className="theme-toggle">
+          <ThemeToggle />
+        </span>
       </div>
     </>
   );

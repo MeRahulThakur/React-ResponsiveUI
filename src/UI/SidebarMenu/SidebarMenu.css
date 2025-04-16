@@ -76,7 +76,7 @@
 
 .theme-toggle {
   margin-top: auto;
-  padding: 1.23rem 1rem;
+  padding: 1rem 1rem;
   background: var(--toggle-bg);
   color: var(--text);
   border: none;
