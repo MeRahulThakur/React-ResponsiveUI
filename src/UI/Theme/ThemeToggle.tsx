@@ -1,6 +1,6 @@
 import { useTheme } from '../../context/useTheme';
-import CheckboxWithLabel from '../Inputs/CheckboxWithLabel';
-import ToggleSwitch from '../Inputs/ToggleSwitch';
+import CheckboxWithLabel from '../Inputs/CheckboxWithLabel/CheckboxWithLabel';
+import ToggleSwitch from '../Inputs/Switch/ToggleSwitch';
 import styles from './ThemeToggle.module.css';
 import { FiSun, FiMoon, FiSettings } from 'react-icons/fi'; // Optional: using lucide icons
 
