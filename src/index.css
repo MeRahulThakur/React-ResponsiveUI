@@ -16,6 +16,10 @@
   --background: #343541;
   --text-color: #ffffff;
   --accent-color: #7c54f1;
+
+  --accordion-bg: #1e1e2f;
+  --accordion-header-bg: #2b2b3c;
+  --accordion-border: #444;
   transition: all 0.3s ease;
 }
 
@@ -28,4 +32,9 @@
   --background: #ffffff;
   --text-color: #1a1a1a;
   --accent-color: #a78bfae3;
+
+  --accordion-bg: #fff;
+  --accordion-header-bg: #f9f9f9;
+  --accordion-border: #ccc;
+  
 }

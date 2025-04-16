@@ -1,0 +1,63 @@
+.expandable-container {
+  max-width: auto;
+  margin: 2rem auto;
+  padding: 1rem;
+}
+
+.accordion-item {
+  border: 1px solid var(--accordion-border);
+  border-radius: 12px;
+  margin-bottom: 1rem;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  background: var(--accordion-bg);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  color: var(--text-color);
+}
+
+.accordion-header {
+  width: 100%;
+  padding: 1rem;
+  font-size: 1.1rem;
+  background: var(--accordion-header-bg);
+  color: var(--text-color);
+  border: none;
+  outline: none;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: background 0.2s;
+}
+
+.accordion-header:hover {
+  background-color: color-mix(in srgb, var(--accent-color) 15%, var(--accordion-header-bg));
+}
+
+.accordion-header.active {
+  color: var(--accent-color);
+}
+
+.accordion-content {
+  max-height: 0;
+  overflow: hidden;
+  padding: 0 1rem;
+  background: var(--accordion-bg);
+  transition: max-height 0.3s ease, padding 0.3s ease;
+}
+
+.accordion-content.open {
+  max-height: 200px;
+  padding: 1rem;
+  border-top: 1px solid var(--accordion-border);
+}
+
+.chevron {
+  font-size: 1rem;
+  transition: transform 0.3s;
+  color: var(--accent-color);
+}
+
+.chevron.open {
+  transform: rotate(180deg);
+}
