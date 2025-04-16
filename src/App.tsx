@@ -4,6 +4,7 @@ import Footer from './UI/Footer'
 import Header from './UI/Header'
 import SidebarMenu from './UI/SidebarMenu';
 import Accordion from './UI/Accordion/Accordion';
+import Button from './UI/Button';
 
 const PageLayout: React.FC = () => {
   const [isSidebarOpen, setSidebarOpen] = useState(false);
@@ -26,7 +27,14 @@ const PageLayout: React.FC = () => {
         <Header isSticky onMenuToggle={toggleSidebar} />
         <main style={{ flex: 1, padding: '1rem', paddingTop: '80px', paddingBottom: '80px' }}>
           <h1>Main Content Area</h1>
+          <h2>Accordion</h2>
           <Accordion />
+          <h2>Buttons</h2>
+          <Button variant="contained" color="danger" onClick={() => {}}>Delete</Button>
+          <Button variant="outlined" color="success" onClick={() => {}}>Success</Button>
+          <Button variant="text" color="default" onClick={() => {}}>Cancel</Button>
+          <Button variant="contained" color="default" onClick={() => {}} loading>Cancel</Button>
+
         </main>
         <Footer isSticky />
       </div>
