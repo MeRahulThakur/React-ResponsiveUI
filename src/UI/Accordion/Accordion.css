@@ -5,6 +5,7 @@
 }
 
 .accordion-item {
+  padding: 2px;
   border: 1px solid var(--accordion-border);
   border-radius: 12px;
   margin-bottom: 1rem;
@@ -27,7 +28,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  transition: background 0.2s;
+  transition: background 0.2s, outline 0.2s ease-in-out;
 }
 
 .accordion-header:hover {
@@ -36,6 +37,21 @@
 
 .accordion-header.active {
   color: var(--accent-color);
+}
+
+.accordion-header:focus {
+  outline: 2px solid var(--accent-color);
+  outline-offset: 1px;
+  border-radius: 8px;
+  z-index: 1;
+  position: relative;
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent-color) 30%, transparent);
+  /* background-color: color-mix(in srgb, var(--accent-color) 8%, var(--accordion-header-bg)); */
+}
+
+.accordion-header:focus-visible {
+  /* Prevents focus ring from showing on mouse click */
+  outline: 2px solid var(--accent-color);
 }
 
 .accordion-content {

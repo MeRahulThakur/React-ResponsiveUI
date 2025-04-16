@@ -8,29 +8,48 @@ type AccordionItem = {
 };
 
 const accordionItems: AccordionItem[] = [
-  { id: 1, title: 'What is ChatGPT?', content: 'ChatGPT is an AI developed by OpenAI.' }
+  { id: 1, title: 'What is React?', content: 'React is a JavaScript library for building UIs.' },
 ];
 
 const Accordion: React.FC = () => {
   const [openId, setOpenId] = useState<number | null>(null);
 
   const toggleItem = (id: number) => {
-    setOpenId(openId === id ? null : id);
+    setOpenId((prevId) => (prevId === id ? null : id));
   };
 
   return (
     <div className="expandable-container">
-      {accordionItems.map((item) => (
-        <div key={item.id} className="accordion-item">
-          <button className="accordion-header" onClick={() => toggleItem(item.id)}>
-            <span>{item.title}</span>
-            <span className="chevron">{openId === item.id ? '▲' : '▼'}</span>
-          </button>
-          <div className={`accordion-content ${openId === item.id ? 'open' : ''}`}>
-            <p>{item.content}</p>
+      {accordionItems.map((item) => {
+        const isOpen = openId === item.id;
+        const contentId = `accordion-content-${item.id}`;
+        const headerId = `accordion-header-${item.id}`;
+
+        return (
+          <div key={item.id} className="accordion-item">
+            <button
+              className="accordion-header"
+              onClick={() => toggleItem(item.id)}
+              aria-expanded={isOpen}
+              aria-controls={contentId}
+              id={headerId}
+            >
+              <span>{item.title}</span>
+              <span className="chevron">{isOpen ? '▲' : '▼'}</span>
+            </button>
+
+            <div
+              id={contentId}
+              className={`accordion-content ${isOpen ? 'open' : ''}`}
+              role="region"
+              aria-labelledby={headerId}
+              hidden={!isOpen}
+            >
+              <p>{item.content}</p>
+            </div>
           </div>
-        </div>
-      ))}
+        );
+      })}
     </div>
   );
 };
