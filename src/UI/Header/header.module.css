@@ -1,0 +1,45 @@
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.8rem 1.2rem;
+  color: white;
+  width: 100%;
+  height: 4.5rem;
+}
+
+.sticky {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+}
+
+.left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.center {
+  display: flex;
+  gap: 10px;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+}
+
+.logo_text {
+  font-weight: 200;
+  font-size: 2.5rem;
+  color: #a4b2ff;
+}
+
+span.grad {
+  font-weight: 700;
+  background: linear-gradient(to right, #f93d99, #7c54f1);
+  background-clip: text;
+  color: transparent;
+}

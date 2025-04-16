@@ -1,0 +1,35 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+ display: flex;
+ flex-direction: column;
+ height: 100vh;
+ min-height: 100vh;
+ background: linear-gradient(89deg, #393939, #2b2b2b);
+}
+
+.main {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+  padding: 0 1.2rem;
+  flex: 1;
+  margin-top: 4.5rem;
+}
+
+@media (max-width: 768px) {
+  .main {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    color: #dadada;
+    background-color: #393939;
+  }
+}
