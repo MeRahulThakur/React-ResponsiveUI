@@ -25,15 +25,17 @@ const PageLayout: React.FC = () => {
         }}
       >
         <Header isSticky onMenuToggle={toggleSidebar} />
-        <main style={{ flex: 1, padding: '1rem', paddingTop: '80px', paddingBottom: '80px' }}>
-          <h1>Main Content Area</h1>
+        <main style={{ flex: 1, padding: '1rem' }}>
+          <h1>Design System</h1>
           <h2>Accordion</h2>
           <Accordion />
           <h2>Buttons</h2>
-          <Button variant="contained" color="danger" onClick={() => {}}>Delete</Button>
-          <Button variant="outlined" color="success" onClick={() => {}}>Success</Button>
-          <Button variant="text" color="default" onClick={() => {}}>Cancel</Button>
-          <Button variant="contained" color="default" onClick={() => {}} loading>Cancel</Button>
+          <div style={{display:'flex', gap: '1rem'}}>
+            <Button variant="contained" color="danger" onClick={() => {}}>Delete</Button>
+            <Button variant="outlined" color="success" onClick={() => {}}>Success</Button>
+            <Button variant="text" color="default" onClick={() => {}}>Cancel</Button>
+            <Button variant="contained" color="default" onClick={() => {}} loading>Loading</Button>
+          </div>
 
         </main>
         <Footer isSticky />
