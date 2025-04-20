@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useId } from 'react';
 import styles from './DropDown.module.css';
 
 export type Option = {
@@ -7,6 +7,7 @@ export type Option = {
 };
 
 interface DropDownProps {
+  id?: string; 
   options: Option[];
   isMulti?: boolean;
   placeholder?: string;
@@ -19,11 +20,15 @@ const DropDown: React.FC<DropDownProps> = ({
   isMulti = false,
   placeholder = 'Select...',
   defaultSelected,
-  onChange
+  onChange,
+  id
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [selected, setSelected] = useState<Option | Option[] | null>(isMulti ? [] : null);
   const dropdownRef = useRef<HTMLDivElement>(null);
+
+  const generatedId = useId();
+  const dropdownId = id || generatedId;
 
   const toggleOpen = () => setIsOpen((prev) => !prev);
 
@@ -77,7 +82,7 @@ const DropDown: React.FC<DropDownProps> = ({
 
   return (
     <div className={styles.dropdown} ref={dropdownRef}>
-      <button className={styles.toggle} onClick={toggleOpen} aria-haspopup="listbox" aria-expanded={isOpen}>
+      <button id={dropdownId} className={styles.toggle} onClick={toggleOpen} aria-haspopup="listbox" aria-expanded={isOpen}>
         {isMulti
           ? (selected as Option[]).map((o) => o.label).join(', ') || placeholder
           : (selected as Option)?.label || placeholder}
