@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import styles from './GroupedRadio.module.css';
+import RadioWithLabel from '../RadioWithLabel/RadioWithLabel';
 
 export type Option = {
   label: string;
@@ -42,16 +43,25 @@ const GroupedRadio: React.FC<GroupedRadioProps> = ({
     <div className={`${styles.groupedRadio} ${orientation === 'row' ? styles.row : styles.column} ${isValid === false ? styles.invalid : ''}`} data-invalid={!isValid ? true : false} role="radiogroup" aria-labelledby={id}>
       {label && <label htmlFor={id} className={styles.label}>{label}</label>}
       {options.map(option => (
-        <label key={option.value} className={styles.option}>
-          <input
-            type="radio"
-            name={id}
-            value={option.value}
-            checked={selected === option.value}
-            onChange={() => setSelected(option.value)}
-          />
-          <span>{option.label}</span>
-        </label>
+        // <label key={option.value} className={styles.option}>
+        //   <input
+        //     type="radio"
+        //     name={id}
+        //     value={option.value}
+        //     checked={selected === option.value}
+        //     onChange={() => setSelected(option.value)}
+        //   />
+        //   <span>{option.label}</span>
+        // </label>
+        <RadioWithLabel
+          key={option.value}
+          id={`${id}-${option.value}`}
+          name={id || 'radio-group'}
+          value={option.value}
+          label={option.label}
+          checked={selected === option.value}
+          onChange={() => setSelected(option.value)}
+        />
       ))}
     </div>
   );
