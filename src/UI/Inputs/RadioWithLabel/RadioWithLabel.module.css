@@ -1,0 +1,31 @@
+.option {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  font-size: 1rem;
+  color: var(--text-color, #333);
+}
+
+.option input[type='radio'] {
+  accent-color: var(--accent-color, #4f46e5);
+}
+
+.option input[type='radio']:focus-visible {
+  outline: 2px solid var(--accent-color, #4f46e5);
+  outline-offset: 2px;
+}
+
+@media (prefers-color-scheme: dark) {
+  .option {
+    color: inherit;
+  }
+
+  .option input[type='radio'] {
+    accent-color: var(--accent-color, #8b5cf6);
+  }
+
+  .option input[type='radio']:focus-visible {
+    outline: 2px solid var(--accent-color, #8b5cf6);
+  }
+}
