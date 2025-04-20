@@ -1,0 +1,66 @@
+.groupedRadio {
+  display: flex;
+  gap: 0.5rem;
+  padding: 0.75rem;
+  border: 1px solid var(--accent-color, #ccc);
+  border-radius: 0.5rem;
+  background-color: var(--background, #fff);
+  transition: border-color 0.3s, background-color 0.3s;
+}
+
+.groupedRadio[data-invalid='true'] {
+  border-color: var(--danger-color, #e74c3c);
+  background-color: var(--input-error-bg, #fdecea);
+}
+
+.row {
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.column {
+  flex-direction: column;
+}
+
+.option {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  font-size: 1rem;
+  color: var(--text-color, #333);
+}
+
+.option input[type='radio'] {
+  accent-color: var(--accent-color, #4f46e5);
+}
+
+.option input[type='radio']:focus-visible {
+  outline: 2px solid var(--accent-color, #4f46e5);
+  outline-offset: 2px;
+}
+
+@media (prefers-color-scheme: dark) {
+  .groupedRadio {
+    border-color: var(--accent-color, #555);
+    background-color: var(--background, #1f1f1f);
+  }
+
+  .groupedRadio[data-invalid='true'] {
+    border-color: var(--danger-color, #e74c3c);
+    background-color: var(--input-error-bg, #fdecea);
+    color: #1a1a1a;
+  }
+
+  .option {
+    color: inherit;
+  }
+
+  .option input[type='radio'] {
+    accent-color: var(--accent-color, #8b5cf6);
+  }
+
+  .option input[type='radio']:focus-visible {
+    outline: 2px solid var(--accent-color, #8b5cf6);
+  }
+}
