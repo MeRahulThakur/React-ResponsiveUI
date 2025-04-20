@@ -13,6 +13,7 @@ interface DropDownProps {
   placeholder?: string;
   defaultSelected?: string | string[];
   onChange: (selected: Option | Option[] | null) => void;
+  isValid?: boolean;
 }
 
 const DropDown: React.FC<DropDownProps> = ({
@@ -21,7 +22,8 @@ const DropDown: React.FC<DropDownProps> = ({
   placeholder = 'Select...',
   defaultSelected,
   onChange,
-  id
+  id,
+  isValid = true
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [selected, setSelected] = useState<Option | Option[] | null>(isMulti ? [] : null);
@@ -82,7 +84,7 @@ const DropDown: React.FC<DropDownProps> = ({
 
   return (
     <div className={styles.dropdown} ref={dropdownRef}>
-      <button id={dropdownId} className={styles.toggle} onClick={toggleOpen} aria-haspopup="listbox" aria-expanded={isOpen}>
+      <button id={dropdownId} className={`${styles.toggle} ${!isValid ? styles.invalid : ''}`} onClick={toggleOpen} aria-haspopup="listbox" aria-expanded={isOpen}>
         {isMulti
           ? (selected as Option[]).map((o) => o.label).join(', ') || placeholder
           : (selected as Option)?.label || placeholder}

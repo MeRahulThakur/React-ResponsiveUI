@@ -57,3 +57,9 @@
   font-weight: 600;
   background: color-mix(in srgb, var(--accent-color) 10%, transparent);
 }
+
+.invalid {
+  border-color: var(--danger-color, #e74c3c);
+  background-color: var(--input-error-bg, #fdecea);
+  color: #1a1a1a;
+}
