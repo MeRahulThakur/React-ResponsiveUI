@@ -1,0 +1,17 @@
+.page {
+  margin: 1.5rem 6rem;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 150px 1fr;
+  align-items: start;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.controls {
+  display: flex;
+  justify-self: end;
+  gap: 1rem;
+}
