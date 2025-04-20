@@ -1,0 +1,49 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.label {
+  font-weight: 500;
+  color: var(--text-color);
+}
+
+.input {
+  padding: 0.5rem;
+  border-radius: 6px;
+  border: 1px solid var(--accent-color);
+  background-color: var(--background);
+  color: var(--text-color);
+  font-size: 1rem;
+}
+
+.input:focus {
+  border-color: var(--accent-color);
+  outline: none;
+}
+
+.invalid .input {
+  border-color: var(--danger-color);
+  background-color: var(--input-error-bg, #fdecea);
+  color: #1a1a1a;
+}
+
+.invalid .label {
+  color: var(--danger-color);
+}
+
+/* Optional: dark mode override (if you're not using CSS vars) */
+:root.dark .input {
+  background-color: #222;
+  color: #f0f0f0;
+}
+
+/* Override native calendar icon styling (WebKit browsers) */
+input[type="date"]::-webkit-calendar-picker-indicator {
+  filter: grayscale(0);
+}
+
+:root.dark input[type="date"]::-webkit-calendar-picker-indicator {
+  filter: grayscale(1) invert(1);
+}
