@@ -27,4 +27,5 @@
 .invalid {
   border-color: var(--danger-color, #e74c3c);
   background-color: var(--input-error-bg, #fdecea);
+  color: #1a1a1a;
 }
