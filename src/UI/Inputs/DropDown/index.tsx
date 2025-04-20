@@ -85,9 +85,29 @@ const DropDown: React.FC<DropDownProps> = ({
   return (
     <div className={styles.dropdown} ref={dropdownRef}>
       <button id={dropdownId} className={`${styles.toggle} ${!isValid ? styles.invalid : ''}`} onClick={toggleOpen} aria-haspopup="listbox" aria-expanded={isOpen}>
-        {isMulti
+        {/* {isMulti
           ? (selected as Option[]).map((o) => o.label).join(', ') || placeholder
-          : (selected as Option)?.label || placeholder}
+          : (selected as Option)?.label || placeholder} */}
+        {isMulti && selected && (selected as Option[]).length > 0 ? (
+          <div className={styles.chipContainer}>
+            {(selected as Option[]).map(option => (
+              <div key={option.value} className={styles.chip}>
+                {option.label}
+                <div
+                  //type="button"
+                  className={styles.removeBtn}
+                  onClick={(e) => {
+                    e.stopPropagation(); // prevent dropdown toggle
+                    handleSelect(option); // this will remove the item
+                  }}
+                  aria-label={`Remove ${option.label}`}
+                >
+                  ×
+                </div>
+              </div>
+            ))}
+          </div>
+        ): ((selected as Option)?.label || placeholder)}
         <span className={styles.chevron}>{isOpen ? '▲' : '▼'}</span>
       </button>
       {isOpen && (

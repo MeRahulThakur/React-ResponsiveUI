@@ -63,3 +63,39 @@
   background-color: var(--input-error-bg, #fdecea);
   color: #1a1a1a;
 }
+
+.chipContainer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  padding: 0.25rem 0;
+}
+
+.chip {
+  display: flex;
+  align-items: center;
+  background-color: var(--chip-bg, #e0e0e0);
+  color: var(--chip-text, #000);
+  padding: 0.25rem 0.5rem;
+  border-radius: 999px;
+  font-size: 0.875rem;
+  max-width: 100%;
+}
+
+.removeBtn {
+  background: none;
+  border: none;
+  margin-left: 0.5rem;
+  font-size: 1rem;
+  cursor: pointer;
+  color: inherit;
+}
+
+.removeBtn:hover {
+  color: red;
+}
+
+:root[data-theme='dark'] .chip {
+  --chip-bg: #434456eb;
+  --chip-text: #fff;
+}
