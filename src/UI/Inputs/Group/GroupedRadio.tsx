@@ -39,7 +39,7 @@ const GroupedRadio: React.FC<GroupedRadioProps> = ({
   }, [selected, onChange, options]);
 
   return (
-    <div className={`${styles.groupedRadio} ${orientation === 'row' ? styles.row : styles.column} ${isValid === false ? styles.invalid : ''}`} data-invalid={!isValid ? true : false}role="radiogroup" aria-labelledby={id}>
+    <div className={`${styles.groupedRadio} ${orientation === 'row' ? styles.row : styles.column} ${isValid === false ? styles.invalid : ''}`} data-invalid={!isValid ? true : false} role="radiogroup" aria-labelledby={id}>
       {label && <label htmlFor={id} className={styles.label}>{label}</label>}
       {options.map(option => (
         <label key={option.value} className={styles.option}>
