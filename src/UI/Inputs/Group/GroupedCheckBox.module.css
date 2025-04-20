@@ -1,0 +1,31 @@
+.group {
+  display: flex;
+  gap: 0.5rem;
+  padding: 0.75rem;
+  border: 1px solid var(--accent-color, #ccc);
+  border-radius: 0.5rem;
+  background-color: var(--background, #fff);
+  transition: border-color 0.3s, background-color 0.3s;
+}
+
+.row {
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.column {
+  flex-direction: column;
+}
+
+.group[data-invalid='true'] {
+  border-color: var(--danger-color, #e74c3c);
+  background-color: var(--input-error-bg, #fdecea);
+}
+
+@media (prefers-color-scheme: dark) { 
+  .group[data-invalid='true'] {
+    border-color: var(--danger-color, #e74c3c);
+    background-color: var(--input-error-bg, #fdecea);
+    color: #1a1a1a !important;
+  }
+}
