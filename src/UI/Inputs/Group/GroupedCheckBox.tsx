@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import styles from './GroupedCheckBox.module.css';
 import CheckboxWithLabel from '../CheckboxWithLabel/CheckboxWithLabel';
 
@@ -25,10 +25,14 @@ const GroupedCheckBox: React.FC<GroupedCheckBoxProps> = ({
   id,
 }) => {
   const [selected, setSelected] = useState<string[]>(defaultSelected);
+  const prevSelectedRef = useRef<string[]>([]);
 
   useEffect(() => {
-    const selectedOptions = options.filter(opt => selected.includes(opt.value));
-    onChange(selectedOptions);
+    if (JSON.stringify(prevSelectedRef.current) !== JSON.stringify(selected)) {
+      prevSelectedRef.current = selected;
+      const selectedOptions = options.filter(opt => selected.includes(opt.value));
+      onChange(selectedOptions);
+    }
   }, [selected, onChange, options]);
 
   const handleToggle = (value: string) => {
