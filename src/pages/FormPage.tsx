@@ -1,3 +1,4 @@
+import "./FormPage.css"
 import { useState } from "react";
 import TextInput from "../UI/Inputs/TextInput/TextInput";
 import Button from "../UI/Button";
@@ -6,8 +7,7 @@ import DropDown from "../UI/Inputs/DropDown";
 import ListBox from "../UI/Inputs/ListBox/ListBox";
 import GroupedRadio from "../UI/Inputs/Group/GroupedRadio";
 import GroupedCheckBox from "../UI/Inputs/Group/GroupedCheckBox";
-
-import "./FormPage.css"
+import DatePicker from "../UI/Inputs/Datepicker";
 
 interface Option {
   value: string;
@@ -41,6 +41,7 @@ const FormPage = () => {
   const [selectedList, setSelectedList] = useState<Option[]>([]);
   const [selectedRadio, setSelectedRadio] = useState<Option|null>(null);
   const [selectedCheckBoxes, setSelectedCheckBoxes] = useState<Option[]|null>(null);
+  const [dob, setDob] = useState('');
 
   const handleSubmit = () => {
     console.log('name-',value)
@@ -49,6 +50,7 @@ const FormPage = () => {
     console.log('selectedList-',selectedList)
     console.log('selectedRadio-',selectedRadio)
     console.log('selectedCheckBoxes-',selectedCheckBoxes)
+    console.log('selectedDOB-',dob)
   }
 
   const handleRadioChange = (option: Option | null) => {
@@ -130,6 +132,17 @@ const FormPage = () => {
           onChange={handleGroupedCheckBoxChange}
           //isValid={false}
           orientation="column"
+        />
+      </div>
+      <div className="form-row">
+        <Label htmlFor="newsletter-options">Datepicker</Label>
+        <DatePicker
+          id="dob"
+          //label="Date of Birth"
+          value={dob}
+          onChange={setDob}
+          minDate="2024-01-01"
+          //isValid={!!dob}
         />
       </div>
       <div className="controls">
