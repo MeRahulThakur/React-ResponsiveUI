@@ -8,6 +8,7 @@ import ListBox from "../UI/Inputs/ListBox/ListBox";
 import GroupedRadio from "../UI/Inputs/Group/GroupedRadio";
 import GroupedCheckBox from "../UI/Inputs/Group/GroupedCheckBox";
 import DatePicker from "../UI/Inputs/Datepicker";
+import DynamicTabPanel from "../UI/Inputs/DynamicTabPanel/DynamicTabPanel";
 
 interface Option {
   value: string;
@@ -61,6 +62,14 @@ const FormPage = () => {
     //console.log('Selected checkboxes:', selected)
     setSelectedCheckBoxes(selected)
   }
+
+  const handleTabInputValueChange = (value: string, activeTab: string) => {
+    console.log(`Tab ${activeTab} input changed to:`, value);
+  };
+  
+  const handleValueChange = (data: { tabInputs: { [key: string]: string }, errors: { [key: string]: string } }) => {
+    console.log('Dynamic Tab Panel Data:', data);
+  };
 
   return (
     <>
@@ -135,7 +144,7 @@ const FormPage = () => {
         />
       </div>
       <div className="form-row">
-        <Label htmlFor="newsletter-options">Datepicker</Label>
+        <Label htmlFor="dob">Datepicker</Label>
         <DatePicker
           id="dob"
           //label="Date of Birth"
@@ -144,6 +153,26 @@ const FormPage = () => {
           minDate="2024-01-01"
           //isValid={!!dob}
         />
+      </div>
+      <div className="form-row">
+        <Label htmlFor="dynamic-tabs">Dynamic Tabs</Label>
+          <DynamicTabPanel 
+            tabData={[
+              { label: 'Project Alpha', value: 'alpha' },
+              { label: 'Project Beta', value: 'beta' },
+              { label: 'Project Gamma', value: 'gamma' },
+              { label: 'Project Delta', value: 'delta' },
+              { label: 'Project Epsilon', value: 'epsilon' },
+              { label: 'Project Zeta', value: 'zeta' },
+              { label: 'Project Eta', value: 'eta' },
+              { label: 'Project Theta', value: 'theta' },
+            ]}
+            onTabClose={(value) => console.log('Closed tab:', value)}
+            onTabInputValueChange={handleTabInputValueChange}
+            onValueChange={handleValueChange}
+            id="dynamic-tabs" 
+            orientation="row"
+          />
       </div>
       <div className="controls">
         <Button variant="contained" color="default" type="submit" onClick={handleSubmit}>Save</Button>
