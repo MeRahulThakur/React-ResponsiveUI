@@ -1,0 +1,95 @@
+.container {
+  display: flex;
+  height: 400px;
+  border: 1px solid var(--accent-color);
+  border-radius: 12px;
+  overflow: hidden;
+  background-color: var(--background);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Left Sidebar */
+.sidebar {
+  width: 220px;
+  background-color: var(--background);
+  border-right: 1px solid var(--accent-color);
+  overflow-y: auto;
+  padding: 0.5rem;
+}
+
+.tab {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 12px;
+  margin-bottom: 8px;
+  border-radius: 8px;
+  cursor: pointer;
+  color: var(--text-color);
+  transition: background 0.2s;
+}
+
+.tab:hover {
+  background-color: color-mix(in srgb, var(--accent-color) 20%, transparent);
+}
+
+.activeTab {
+  background-color: var(--accent-color);
+}
+
+.tabLabel {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.closeButton {
+  margin-left: 8px;
+  background: transparent;
+  border: none;
+  font-size: 18px;
+  color: var(--text-color);
+  cursor: pointer;
+  line-height: 1;
+}
+
+.noTabs {
+  padding: 1rem;
+  text-align: center;
+  color: var(--muted-text);
+}
+
+/* Right Content */
+.content {
+  flex: 1;
+  padding: 1rem;
+}
+
+.textarea {
+  width: 100%;
+  height: 80%;
+  resize: none;
+  font-size: 1rem;
+  background-color: var(--background);
+  color: var(--text-color);
+  border: 1px solid var(--accent-color);
+  border-radius: 8px;
+  padding: 10px;
+}
+
+.error {
+  border-color: var(--danger-color, #e74c3c);;
+}
+
+.errorMessage {
+  color: var(--danger-color, #e74c3c);;
+  margin-top: 8px;
+  font-size: 1rem;
+}
+
+.selectPrompt {
+  text-align: center;
+  margin-top: 100px;
+  color: var(--muted-text);
+}
