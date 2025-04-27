@@ -40,10 +40,13 @@
 }
 
 /* Override native calendar icon styling (WebKit browsers) */
+/* Normal mode (light theme) */
 input[type="date"]::-webkit-calendar-picker-indicator {
   filter: grayscale(0);
+  transition: filter 0.3s;
 }
 
-:root.dark input[type="date"]::-webkit-calendar-picker-indicator {
+/* Dark mode */
+html[data-theme="dark"] input[type="date"]::-webkit-calendar-picker-indicator {
   filter: grayscale(1) invert(1);
 }
