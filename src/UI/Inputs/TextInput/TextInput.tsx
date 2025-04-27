@@ -1,15 +1,19 @@
-import React, { ChangeEvent, InputHTMLAttributes } from 'react';
+import React, { ChangeEvent, InputHTMLAttributes, TextareaHTMLAttributes } from 'react';
 import Label from '../Label';
 import styles from './TextInput.module.css';
 
-//interface TextInputProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'onChange'> {
-interface TextInputProps extends InputHTMLAttributes<HTMLInputElement> {
+interface CommonTextInputProps {
   onValueChange: (value: string) => void;
   label?: string;
   id?: string;
   required?: boolean;
   isValid?: boolean;
+  multiline?: boolean;  // To toggle between input and textarea
+  onChange?: (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;  // Handle onChange for both input and textarea
 }
+
+type TextInputProps = CommonTextInputProps & 
+  (InputHTMLAttributes<HTMLInputElement> | TextareaHTMLAttributes<HTMLTextAreaElement>);
 
 const TextInput: React.FC<TextInputProps> = ({ 
   onChange,
@@ -18,12 +22,14 @@ const TextInput: React.FC<TextInputProps> = ({
   label,
   id,
   required,
+  multiline = false,  // Default to single-line input
   ...props
  }) => {
   const inputId = id || `textinput-${Math.random().toString(36).slice(2)}`;
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+
+  const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     onValueChange?.(e.target.value);
-    onChange?.(e);
+    onChange?.(e);  // Handle onChange for both input and textarea
   };
 
   return (
@@ -33,17 +39,28 @@ const TextInput: React.FC<TextInputProps> = ({
           {label}
         </Label>
       )}
-      <input
-        id={inputId}
-        className={`${styles.input} ${!isValid ? styles.invalid : ''}`}
-        aria-invalid={!isValid}
-        type="text"
-        onChange={handleChange}
-        required={required}
-        {...props}
-      />
+      {multiline ? (
+        <textarea
+          id={inputId}
+          className={`${styles.input} ${!isValid ? styles.invalid : ''}`}
+          aria-invalid={!isValid}
+          onChange={handleChange}
+          required={required}
+          {...(props as TextareaHTMLAttributes<HTMLTextAreaElement>)}  // Ensure correct typing for textarea
+        />
+      ) : (
+        <input
+          id={inputId}
+          className={`${styles.input} ${!isValid ? styles.invalid : ''}`}
+          aria-invalid={!isValid}
+          type="text"
+          onChange={handleChange}
+          required={required}
+          {...(props as InputHTMLAttributes<HTMLInputElement>)}  // Ensure correct typing for input
+        />
+      )}
     </div>
-  )
+  );
 };
 
 export default TextInput;
