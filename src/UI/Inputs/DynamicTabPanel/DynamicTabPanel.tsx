@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import styles from './DynamicTabPanel.module.css';
 import Button from '../../Button';
 import TextInput from '../TextInput/TextInput';
@@ -9,12 +9,13 @@ type Tab = {
 };
 
 interface DynamicTabPanelProps {
-  tabData: Tab[];
+  tabData: Tab[] | null; // Allow null
   onTabClose: (value: string) => void;
   onTabInputValueChange: (value: string, activeTab: string) => void;
   onValueChange: (data: { tabInputs: { [key: string]: string }, errors: { [key: string]: string } }) => void;
   id?: string;
   orientation?: 'row' | 'column'; // Add orientation prop
+  isValid?: boolean;  // New isValid prop
 }
 
 const DynamicTabPanel: React.FC<DynamicTabPanelProps> = ({
@@ -23,26 +24,24 @@ const DynamicTabPanel: React.FC<DynamicTabPanelProps> = ({
   onTabInputValueChange,
   onValueChange,
   id,
-  orientation = 'row' // Default orientation to row
+  orientation = 'row', // Default orientation to row
+  isValid = true,  // Default isValid to true
 }) => {
-  const [tabs, setTabs] = useState<Tab[]>(tabData);
-  const [activeTab, setActiveTab] = useState<string>(tabData[0]?.value || '');
+  // Handle null or undefined `tabData` by defaulting to an empty array
+  const [tabs, setTabs] = useState<Tab[]>(tabData || []); // Use fallback if tabData is null
+
+  const [activeTab, setActiveTab] = useState<string>(tabs[0]?.value || '');
   const [tabInputs, setTabInputs] = useState<{ [key: string]: string }>({});
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
 
-  // Create refs to manage auto-focus for each tab input
-  const inputRefs = useRef<{ [key: string]: HTMLInputElement | HTMLTextAreaElement | null }>({});
-
   useEffect(() => {
-    // Auto-focus on the active tab input and move cursor to the end
-    if (inputRefs.current[activeTab]) {
-      const inputElement = inputRefs.current[activeTab];
-      inputElement?.focus();
-      inputElement?.setSelectionRange(inputElement.value.length, inputElement.value.length);
-    }
-
     onValueChange({ tabInputs, errors }); // Log data whenever the component updates
   }, [tabInputs, errors, activeTab, onValueChange]);
+
+  useEffect(() => {
+    // Update tabs when tabData changes
+    setTabs(tabData || []);
+  }, [tabData]);
 
   const handleTabClick = (value: string) => {
     setActiveTab(value);
@@ -91,7 +90,7 @@ const DynamicTabPanel: React.FC<DynamicTabPanelProps> = ({
   };
 
   return (
-    <div className={`${styles.container} ${styles[orientation]}`} id={id}>
+    <div className={`${styles.container} ${!isValid && styles.invalid} ${styles[orientation]}`} id={id}>
       {/* Sidebar */}
       <div className={styles.sidebar}>
         {tabs.length > 0 ? (
@@ -134,11 +133,6 @@ const DynamicTabPanel: React.FC<DynamicTabPanelProps> = ({
               multiline
               rows={6}
               id={id ? `${id}-input-${activeTab}` : undefined} // Unique id for accessibility
-              ref={(ref) => {
-                if (ref) {
-                  inputRefs.current[activeTab] = ref;
-                }
-              }}
             />
             {errors[activeTab] && (
               <div className={styles.errorMessage}>
