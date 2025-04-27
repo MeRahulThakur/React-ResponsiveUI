@@ -14,6 +14,7 @@ interface DynamicTabPanelProps {
   onTabInputValueChange: (value: string, activeTab: string) => void;
   onValueChange: (data: { tabInputs: { [key: string]: string }, errors: { [key: string]: string } }) => void;
   id?: string;
+  orientation?: 'row' | 'column'; // Add orientation prop
 }
 
 const DynamicTabPanel: React.FC<DynamicTabPanelProps> = ({
@@ -21,7 +22,8 @@ const DynamicTabPanel: React.FC<DynamicTabPanelProps> = ({
   onTabClose,
   onTabInputValueChange,
   onValueChange,
-  id
+  id,
+  orientation = 'row' // Default orientation to row
 }) => {
   const [tabs, setTabs] = useState<Tab[]>(tabData);
   const [activeTab, setActiveTab] = useState<string>(tabData[0]?.value || '');
@@ -89,7 +91,7 @@ const DynamicTabPanel: React.FC<DynamicTabPanelProps> = ({
   };
 
   return (
-    <div className={styles.container} id={id}>
+    <div className={`${styles.container} ${styles[orientation]}`} id={id}>
       {/* Sidebar */}
       <div className={styles.sidebar}>
         {tabs.length > 0 ? (
