@@ -41,12 +41,17 @@
 
 /* Override native calendar icon styling (WebKit browsers) */
 /* Normal mode (light theme) */
-input[type="date"]::-webkit-calendar-picker-indicator {
+input[type="time"]::-webkit-calendar-picker-indicator,
+input[type="date"]::-webkit-calendar-picker-indicator,
+input[type="datetime-local"]::-webkit-calendar-picker-indicator {
   filter: grayscale(0);
   transition: filter 0.3s;
 }
 
 /* Dark mode */
-html[data-theme="dark"] input[type="date"]::-webkit-calendar-picker-indicator {
+html[data-theme="dark"] input[type="date"]::-webkit-calendar-picker-indicator,
+html[data-theme="dark"] input[type="time"]::-webkit-calendar-picker-indicator,
+html[data-theme="dark"] input[type="datetime-local"]::-webkit-calendar-picker-indicator {
   filter: grayscale(1) invert(1);
+  transition: filter 0.3s;
 }
