@@ -33,25 +33,74 @@ const DynamicTabPanel: React.FC<DynamicTabPanelProps> = ({
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
 
   useEffect(() => {
-    setTabs(tabData || []);
+    if (!tabData) return;
+
+    setTabs(tabData);
+
+    setTabInputs(prev => {
+      const updated = { ...prev };
+      tabData.forEach(tab => {
+        if (!(tab.value in updated)) {
+          updated[tab.value] = '';
+        }
+      });
+      return updated;
+    });
+
+    setErrors(prev => {
+      const updated: { [key: string]: string } = {};
+      tabData.forEach(tab => {
+        if (prev[tab.value]) {
+          updated[tab.value] = prev[tab.value];
+        }
+      });
+      return updated;
+    });
+
+    setActiveTab(current => {
+      if (!current || !tabData.find(tab => tab.value === current)) {
+        return tabData[0]?.value || '';
+      }
+      return current;
+    });
+
+    // This is safe here because we're constructing new state
+    onValueChange({
+      tabInputs: tabData.reduce((acc, tab) => {
+        acc[tab.value] = tabInputs[tab.value] ?? '';
+        return acc;
+      }, {} as { [key: string]: string }),
+      errors: tabData.reduce((acc, tab) => {
+        if (errors[tab.value]) acc[tab.value] = errors[tab.value];
+        return acc;
+      }, {} as { [key: string]: string }),
+    });
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [tabData]);
 
   const handleTabClick = (value: string) => {
     setActiveTab(value);
+
+    // If tabInputs is empty or doesn't contain the key, initialize it
+    setTabInputs(prev => {
+      if (Object.keys(prev).length === 0 || !(value in prev)) {
+        return { ...prev, [value]: '' };
+      }
+      return prev;
+    });
   };
 
   const handleTabClose = (value: string) => {
+    const updatedTabInputs = { ...tabInputs };
+    const updatedErrors = { ...errors };
+
+    delete updatedTabInputs[value];
+    delete updatedErrors[value];
+
     setTabs(prev => prev.filter(tab => tab.value !== value));
-    setTabInputs(prev => {
-      const updated = { ...prev };
-      delete updated[value];
-      return updated;
-    });
-    setErrors(prev => {
-      const updated = { ...prev };
-      delete updated[value];
-      return updated;
-    });
+    setTabInputs(updatedTabInputs);
+    setErrors(updatedErrors);
 
     if (activeTab === value && tabs.length > 1) {
       const nextTab = tabs.find(tab => tab.value !== value);
@@ -60,7 +109,15 @@ const DynamicTabPanel: React.FC<DynamicTabPanelProps> = ({
       setActiveTab('');
     }
 
-    onTabClose(value); // Notify parent about tab closure
+    onTabClose(value);
+
+    // Defer onValueChange to avoid updating parent during render
+    setTimeout(() => {
+      onValueChange({
+        tabInputs: updatedTabInputs,
+        errors: updatedErrors,
+      });
+    }, 0);
   };
 
   const validateInput = (value: string) => {
