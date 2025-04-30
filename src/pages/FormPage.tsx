@@ -271,7 +271,7 @@ const FormPage = () => {
 
       {/* Date Time Picker */}
       <div className="form-row">
-        <Label htmlFor="datetime">Time</Label>
+        <Label htmlFor="datetime">Date Time</Label>
         <div>
           <DatePicker
             id="datetime"
