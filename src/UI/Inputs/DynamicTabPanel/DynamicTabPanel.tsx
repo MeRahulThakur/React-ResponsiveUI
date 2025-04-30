@@ -27,19 +27,12 @@ const DynamicTabPanel: React.FC<DynamicTabPanelProps> = ({
   orientation = 'row', // Default orientation to row
   isValid = true,  // Default isValid to true
 }) => {
-  // Handle null or undefined `tabData` by defaulting to an empty array
-  const [tabs, setTabs] = useState<Tab[]>(tabData || []); // Use fallback if tabData is null
-
+  const [tabs, setTabs] = useState<Tab[]>(tabData || []);
   const [activeTab, setActiveTab] = useState<string>(tabs[0]?.value || '');
   const [tabInputs, setTabInputs] = useState<{ [key: string]: string }>({});
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
 
   useEffect(() => {
-    onValueChange({ tabInputs, errors }); // Log data whenever the component updates
-  }, [tabInputs, errors, activeTab, onValueChange]);
-
-  useEffect(() => {
-    // Update tabs when tabData changes
     setTabs(tabData || []);
   }, [tabData]);
 
@@ -89,9 +82,29 @@ const DynamicTabPanel: React.FC<DynamicTabPanelProps> = ({
     onTabInputValueChange(text, value); // Notify parent about input change
   };
 
+  // Handle blur event to call onValueChange when the input loses focus (clicking outside)
+  const handleInputBlur = (e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const inputValue = e.target.value;
+    
+    // Update tabInputs with latest value
+    const updatedTabInputs = { ...tabInputs, [activeTab]: inputValue };
+  
+    // Validate and update errors
+    const error = validateInput(inputValue);
+    const updatedErrors = { ...errors, [activeTab]: error };
+  
+    setTabInputs(updatedTabInputs);
+    setErrors(updatedErrors);
+  
+    // Notify parent with latest tabInputs and errors
+    onValueChange({
+      tabInputs: updatedTabInputs,
+      errors: updatedErrors,
+    });
+  };
+
   return (
     <div className={`${styles.container} ${!isValid && styles.invalid} ${styles[orientation]}`} id={id}>
-      {/* Sidebar */}
       <div className={styles.sidebar}>
         {tabs.length > 0 ? (
           tabs.map(tab => (
@@ -120,7 +133,6 @@ const DynamicTabPanel: React.FC<DynamicTabPanelProps> = ({
         )}
       </div>
 
-      {/* Content */}
       <div className={styles.content}>
         {activeTab ? (
           <>
@@ -132,7 +144,8 @@ const DynamicTabPanel: React.FC<DynamicTabPanelProps> = ({
               required
               multiline
               rows={6}
-              id={id ? `${id}-input-${activeTab}` : undefined} // Unique id for accessibility
+              id={id ? `${id}-input-${activeTab}` : undefined}
+              onBlur={handleInputBlur} // Call onValueChange when input loses focus
             />
             {errors[activeTab] && (
               <div className={styles.errorMessage}>
