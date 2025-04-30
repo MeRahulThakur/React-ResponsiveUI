@@ -15,3 +15,8 @@
   justify-self: end;
   gap: 1rem;
 }
+
+.error {
+  font-size: small;
+  color: var(--danger-color, #e74c3c);
+}
