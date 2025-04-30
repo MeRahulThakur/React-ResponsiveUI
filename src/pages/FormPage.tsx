@@ -52,6 +52,8 @@ const FormPage = () => {
   const [selectedRadio, setSelectedRadio] = useState<Option | null>(null);
   const [selectedCheckBoxes, setSelectedCheckBoxes] = useState<Option[] | null>(null);
   const [dob, setDob] = useState('');
+  const [time, setTime] = useState('');
+  const [datetime, setDateTime] = useState('');
   const [dynamicTabData, setDynamicTabData] = useState<DynamicTabData | null>(null);
   const [errors, setErrors] = useState<{ [key: string]: string | { [key: string]: string } }>({}); // Track form errors
 
@@ -66,6 +68,8 @@ const FormPage = () => {
     if (!selectedRadio) errors.radio = "Please select a theme.";
     if (!selectedCheckBoxes || selectedCheckBoxes.length === 0) errors.checkboxes = "Please select at least one category.";
     if (!dob) errors.dob = "Please select your Date of Birth.";
+    if (!time) errors.time = "Please select time.";
+    if (!datetime) errors.datetime = "Please select date and time.";
 
     console.log('validateForm', dynamicTabData)
 
@@ -109,6 +113,8 @@ const FormPage = () => {
       console.log('Radio Option:', selectedRadio);
       console.log('Check Boxes:', selectedCheckBoxes);
       console.log('Date of Birth:', dob);
+      console.log('Time:', time);
+      console.log('DateTime:', datetime);
       console.log('DynamicTabData:', dynamicTabData);
     }
   };
@@ -244,6 +250,38 @@ const FormPage = () => {
             isValid={!errors.dob}
           />
           {typeof errors.dob === 'string' && <div className="error">{errors.dob}</div>}
+        </div>
+      </div>
+
+      {/* Time Picker */}
+      <div className="form-row">
+        <Label htmlFor="time">Time</Label>
+        <div>
+          <DatePicker
+            id="time"
+            placeholder="Pick a time"
+            mode="time"
+            value={time}
+            onChange={setTime}
+            isValid={!errors.time}
+          />
+          {typeof errors.time === 'string' && <div className="error">{errors.time}</div>}
+        </div>
+      </div>
+
+      {/* Date Time Picker */}
+      <div className="form-row">
+        <Label htmlFor="datetime">Time</Label>
+        <div>
+          <DatePicker
+            id="datetime"
+            placeholder="Pick date & time"
+            mode="datetime-local"
+            value={datetime}
+            onChange={setDateTime}
+            isValid={!errors.datetime}
+          />
+          {typeof errors.datetime === 'string' && <div className="error">{errors.datetime}</div>}
         </div>
       </div>
 
