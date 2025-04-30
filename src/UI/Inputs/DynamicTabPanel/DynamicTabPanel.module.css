@@ -136,4 +136,8 @@
   .invalid {
     color: #1a1a1a !important;
   }
+
+  .container.invalid .tab:not(.activeTab) {
+    color: #1a1a1a;
+  }
 }
