@@ -27,7 +27,7 @@ const PageLayout: React.FC = () => {
           minHeight: '100vh',
         }}
       >
-        <Header isSticky onMenuToggle={toggleSidebar} />
+        <Header isSticky onMenuToggle={toggleSidebar} isSidebarOpen={isSidebarOpen} />
         <main style={{ flex: 1, padding: '1rem', marginBottom: '3.5rem' }}>
           <Routes>
             <Route path="/" element={<Home />} />

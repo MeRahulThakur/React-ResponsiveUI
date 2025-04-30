@@ -1,16 +1,17 @@
 //import { useTheme } from "../../context/useTheme";
 import ThemeToggle from "../Theme/ThemeToggle";
 import styles from "./header.module.css"
-import { FiSidebar } from 'react-icons/fi';
+import { LuPanelLeftOpen, LuPanelLeftClose } from 'react-icons/lu';
 import { Link } from 'react-router-dom';
 
 
 interface HeaderProps {
+  isSidebarOpen: boolean;
   isSticky?: boolean;
   onMenuToggle?: () => void;
 }
 
-const Header = ({isSticky, onMenuToggle}: HeaderProps) => {
+const Header = ({isSidebarOpen, isSticky, onMenuToggle}: HeaderProps) => {
   //const { theme } = useTheme();
   return (
     <header className={`${styles.header} ${isSticky ? styles.sticky : ''}`}>
@@ -18,7 +19,7 @@ const Header = ({isSticky, onMenuToggle}: HeaderProps) => {
         {/* Hamburger */}
         {onMenuToggle && (
           <button className={styles.hamburger} onClick={onMenuToggle}>
-            <FiSidebar />
+           {isSidebarOpen?<LuPanelLeftClose />:<LuPanelLeftOpen />}
           </button>
         )}
         <Link to="/"><img src="vite.svg" alt="Logo" width="50" /></Link>
