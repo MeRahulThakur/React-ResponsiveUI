@@ -2,6 +2,7 @@
 import ThemeToggle from "../Theme/ThemeToggle";
 import styles from "./header.module.css"
 import { FiSidebar } from 'react-icons/fi';
+import { Link } from 'react-router-dom';
 
 
 interface HeaderProps {
@@ -20,7 +21,7 @@ const Header = ({isSticky, onMenuToggle}: HeaderProps) => {
             <FiSidebar />
           </button>
         )}
-        <img src="vite.svg" alt="Logo" width="50" />
+        <Link to="/"><img src="vite.svg" alt="Logo" width="50" /></Link>
         <div className={styles.logo}>
           <div className={styles.logo_text}><span className={styles.grad}>APP</span>TITLE</div>
         </div>

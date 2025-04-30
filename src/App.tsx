@@ -7,6 +7,7 @@ import SidebarMenu from './UI/SidebarMenu';
 import DesignSystemPage from './pages/DesignSystemPage';
 import FormPage from './pages/FormPage';
 import SettingsPage from './pages/SettingsPage';
+import Home from './pages/HomePage';
 
 const PageLayout: React.FC = () => {
   const [isSidebarOpen, setSidebarOpen] = useState(false);
@@ -29,6 +30,7 @@ const PageLayout: React.FC = () => {
         <Header isSticky onMenuToggle={toggleSidebar} />
         <main style={{ flex: 1, padding: '1rem', marginBottom: '3.5rem' }}>
           <Routes>
+            <Route path="/" element={<Home />} />
             <Route path="/design-system" element={<DesignSystemPage />} />
             <Route path="/form" element={<FormPage />} />
             <Route path="/settings" element={<SettingsPage />} />
