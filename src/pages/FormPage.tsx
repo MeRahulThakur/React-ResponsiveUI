@@ -1,5 +1,5 @@
 import "./FormPage.css";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import TextInput from "../UI/Inputs/TextInput/TextInput";
 import Button from "../UI/Button";
 import Label from "../UI/Inputs/Label";
@@ -72,24 +72,20 @@ const FormPage = () => {
 
     // DynamicTabPanel validation
     if (dynamicTabData?.tabInputs) {
-      if (Object.keys(dynamicTabData.tabInputs).length !== selectedCheckBoxes?.length) {
-        errors.dynamicTabData = 'Dynamic tabs must match selected checkboxes.';
-      } else {
-        const tabErrors: { [key: string]: string } = {};
+      const tabErrors: { [key: string]: string } = {};
 
-        // Check each tab input for errors
-        for (const [key, value] of Object.entries(dynamicTabData.tabInputs)) {
-          if (!value || value.trim() === '') {
-            tabErrors[key] = `Input for "${key}" cannot be empty.`;
-          }
-        }
-
-        if (Object.keys(tabErrors).length > 0) {
-          errors.dynamicTabInput = tabErrors; // Store errors in dynamicTabInput
+      // Check each tab input for errors
+      for (const [key, value] of Object.entries(dynamicTabData.tabInputs)) {
+        if (!value || value.trim() === '') {
+          tabErrors[key] = `Input for "${key}" cannot be empty.`;
         }
       }
+
+      if (Object.keys(tabErrors).length > 0) {
+        errors.dynamicTabInput = tabErrors; // Store errors in dynamicTabInput
+      }
     } else {
-      console.log('rrr', selectedCheckBoxes?.length)
+      console.log('===C===', selectedCheckBoxes?.length)
       //add logic of dynamicTabData is null
       if (selectedCheckBoxes && selectedCheckBoxes.length > 0) {
         errors.dynamicTabInput = 'Please fill out all dynamic tab fields.';
@@ -129,10 +125,9 @@ const FormPage = () => {
     console.log(`Tab ${activeTab} input changed to:`, value);
   };
 
-  const handleValueChange = (data: { tabInputs: { [key: string]: string }; errors: { [key: string]: string } }) => {
-    console.log('Dynamic Tab Panel Data:', data);
+  const handleValueChange = useCallback((data: { tabInputs: { [key: string]: string }; errors: { [key: string]: string } }) => {
     setDynamicTabData(data)
-  };
+  },[]);
 
   return (
     <div className="page">
