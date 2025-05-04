@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import styles from './Modal.module.css';
 import { createPortal } from 'react-dom';
 import Button from '../Button';
@@ -33,42 +33,68 @@ const Modal: React.FC<ModalProps> = ({
   children,
 }) => {
   const [isVisible, setIsVisible] = useState(false);
-  const [shouldRender, setShouldRender] = useState(isOpen);
+  const modalRef = useRef<HTMLDivElement>(null);
 
-  // Map size prop to CSS classes
+  useEffect(() => {
+    if (isOpen) {
+      setIsVisible(true);
+      setTimeout(() => {
+        modalRef.current?.focus();
+      }, 10);
+    }
+  }, [isOpen]);
+
+  const handleClose = () => {
+    setIsVisible(false);
+    setTimeout(() => {
+      onClose();
+    }, 300);
+  };
+
+  useEffect(() => {
+    const handleEsc = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        onClose();
+      }
+    };
+    document.addEventListener('keydown', handleEsc);
+    return () => document.removeEventListener('keydown', handleEsc);
+  }, [onClose]);
+
+  const trapFocus = (e: React.KeyboardEvent<HTMLDivElement>) => {
+    if (e.key !== 'Tab') return;
+
+    const focusableEls = modalRef.current?.querySelectorAll<HTMLElement>(
+      'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+    );
+    if (!focusableEls || focusableEls.length === 0) return;
+
+    const firstEl = focusableEls[0];
+    const lastEl = focusableEls[focusableEls.length - 1];
+
+    if (e.shiftKey && document.activeElement === firstEl) {
+      e.preventDefault();
+      lastEl.focus();
+    } else if (!e.shiftKey && document.activeElement === lastEl) {
+      e.preventDefault();
+      firstEl.focus();
+    }
+  };
+
   const sizeClassMap: Record<NonNullable<ModalProps['size']>, string> = {
     small: styles.small,
     medium: styles.medium,
     large: styles.large,
     fullScreen: styles.fullScreen,
   };
-  const sizeClass = sizeClassMap[size];
 
-  // Sync rendering state with open prop
-  useEffect(() => {
-    if (isOpen) {
-      setShouldRender(true);
-      requestAnimationFrame(() => setIsVisible(true)); // ensures animation runs
-    } else {
-      setIsVisible(false);
-      setTimeout(() => setShouldRender(false), 300); // delay matches CSS transition
-    }
-  }, [isOpen]);
+  const sizeClass = sizeClassMap[size || 'medium'];
 
-  // Escape key support
-  useEffect(() => {
-    const handleEsc = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') onClose();
-    };
-    document.addEventListener('keydown', handleEsc);
-    return () => document.removeEventListener('keydown', handleEsc);
-  }, [onClose]);
+  if (!isOpen) return null;
 
   const handleBackdropClick = () => {
-    if (backdropClosable) onClose();
+    if (backdropClosable) handleClose();
   };
-
-  if (!shouldRender) return null;
 
   return createPortal(
     <div
@@ -81,9 +107,12 @@ const Modal: React.FC<ModalProps> = ({
       <div
         className={`${styles.modalContent} ${sizeClass} ${isVisible ? styles.slideIn : styles.slideOut}`}
         onClick={(e) => e.stopPropagation()}
+        onKeyDown={trapFocus}
+        tabIndex={-1}
+        ref={modalRef}
       >
         {showCloseIcon && (
-          <button className={styles.closeButton} onClick={onClose} aria-label="Close modal">
+          <button className={styles.closeButton} onClick={handleClose} aria-label="Close modal">
             &times;
           </button>
         )}
