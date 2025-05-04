@@ -1,5 +1,5 @@
 import "./FormPage.css";
-import { useCallback, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import TextInput from "../UI/Inputs/TextInput/TextInput";
 import Button from "../UI/Button";
 import Label from "../UI/Inputs/Label";
@@ -56,6 +56,11 @@ const FormPage = () => {
   const [datetime, setDateTime] = useState('');
   const [dynamicTabData, setDynamicTabData] = useState<DynamicTabData | null>(null);
   const [errors, setErrors] = useState<{ [key: string]: string | { [key: string]: string } }>({}); // Track form errors
+
+  const tabData = useMemo(() => {
+    return selectedCheckBoxes?.map(opt => ({ label: opt.label, value: opt.value })) || [];
+  }, [selectedCheckBoxes]);
+
 
   // Validate form inputs
   const validateForm = () => {
@@ -289,7 +294,7 @@ const FormPage = () => {
         <Label htmlFor="dynamic-tabs">Dynamic Tabs</Label>
         <div>
           <DynamicTabPanel
-            tabData={selectedCheckBoxes}
+            tabData={tabData}
             onTabClose={(value) => console.log('Closed tab:', value)}
             onTabInputValueChange={handleTabInputValueChange}
             onValueChange={handleValueChange}

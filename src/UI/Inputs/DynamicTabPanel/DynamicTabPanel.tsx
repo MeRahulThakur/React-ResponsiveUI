@@ -42,17 +42,17 @@ const DynamicTabPanel: React.FC<DynamicTabPanelProps> = ({
     setTabs(tabData);
 
     setTabInputs(prev => {
-      const updated = { ...prev };
+      const updated: { [key: string]: string } = {};
+      // Keep only those in tabData
       tabData.forEach(tab => {
-        if (!(tab.value in updated)) {
-          updated[tab.value] = '';
-        }
+        updated[tab.value] = prev[tab.value] ?? '';
       });
       return updated;
     });
 
     setErrors(prev => {
       const updated: { [key: string]: string } = {};
+      // Keep only those in tabData
       tabData.forEach(tab => {
         if (prev[tab.value]) {
           updated[tab.value] = prev[tab.value];
@@ -67,7 +67,7 @@ const DynamicTabPanel: React.FC<DynamicTabPanelProps> = ({
       }
       return current;
     });
-  }, [tabData]);
+  }, [tabData]);  
 
   useEffect(() => {
     onValueChange({
