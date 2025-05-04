@@ -1,0 +1,129 @@
+/* SnackBar itself */
+.snackBar {
+  display: flex;
+  min-width: 280px;
+  max-width: 700px;
+  padding: 1rem 1.5rem;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  font-weight: 500;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+  background-color: var(--snackbar-bg, #333);
+  color: var(--snackbar-text, #fff);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+/* Wrapper to control anchor position */
+.snackBarWrapper {
+  position: fixed;
+  z-index: 1500;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  pointer-events: none;
+}
+
+/* Anchor positions */
+.topleft {
+  top: 1rem;
+  left: 1rem;
+  justify-content: flex-start;
+}
+
+.topcenter {
+  top: 1rem;
+}
+
+.topright {
+  top: 1rem;
+  right: 1rem;
+  justify-content: flex-end;
+}
+
+.bottomleft {
+  bottom: 1rem;
+  left: 1rem;
+  justify-content: flex-start;
+}
+
+.bottomcenter {
+  bottom: 1rem;
+}
+
+.bottomright {
+  bottom: 1rem;
+  right: 1rem;
+  justify-content: flex-end;
+}
+
+/* Transition classes */
+.appearFromTop {
+  transform: translateY(-100%);
+  opacity: 0;
+}
+
+.showFromTop {
+  transform: translateY(0);
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.appearFromBottom {
+  transform: translateY(100%);
+  opacity: 0;
+}
+
+.showFromBottom {
+  transform: translateY(0);
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* Variants */
+.default {
+  background-color: #333;
+  color: #fff;
+}
+
+.success {
+  background-color: #4caf50;
+  color: #fff;
+}
+
+.error {
+  background-color: #f44336;
+  color: #fff;
+}
+
+.warning {
+  background-color: #ff9800;
+  color: #fff;
+}
+
+.info {
+  background-color: #2196f3;
+  color: #fff;
+}
+
+/* Close Button */
+.closeButton {
+  background: transparent;
+  border: none;
+  color: inherit;
+  font-size: 1.25rem;
+  cursor: pointer;
+  padding: 0;
+  line-height: 1;
+  transition: color 0.2s ease;
+}
+
+.closeButton:hover {
+  color: #fff;
+}
+
+.message {
+  flex: 1;
+  overflow-wrap: break-word;
+}
