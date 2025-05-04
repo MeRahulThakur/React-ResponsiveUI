@@ -39,9 +39,11 @@ const SidebarMenu: React.FC<SidebarMenuProps> = ({ isOpen, onClose }) => {
     <div
       className={`sidebar ${isOpen ? 'open' : 'closed'}`}
       role="navigation"
-      aria-hidden={!isOpen}
+      aria-live="assertive" // Announce when the sidebar opens or closes
       aria-label="Sidebar menu"
       ref={menuRef}
+      // Use inert instead of aria-hidden to prevent focus issues
+      {...(isOpen ? {} : { inert: true })}
     >
       <div className="sidebar-header">
         <h2 className="sidebar-title">Menu</h2>
@@ -53,11 +55,6 @@ const SidebarMenu: React.FC<SidebarMenuProps> = ({ isOpen, onClose }) => {
       <ul className="sidebar-list">
         {menuItems.map((item) => (
           <li key={item.id} className="sidebar-item">
-            {/* <button
-              tabIndex={isOpen ? 0 : -1}
-              className="sidebar-link"
-              aria-label={item.label}
-            > */}
             <NavLink
               to={item.path}
               className={({ isActive }) => isActive ? 'sidebar-link active' : 'sidebar-link'}
@@ -66,7 +63,6 @@ const SidebarMenu: React.FC<SidebarMenuProps> = ({ isOpen, onClose }) => {
               <span className="icon">{item.icon}</span>
               <span className="label">{item.label}</span>
             </NavLink>
-            {/* </button> */}
           </li>
         ))}
       </ul>
