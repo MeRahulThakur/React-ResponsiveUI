@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styles from './Modal.module.css';
 import { createPortal } from 'react-dom';
 import Button from '../Button';
@@ -13,9 +13,9 @@ interface ModalProps {
   onCancel?: () => void;
   confirmText?: string;
   cancelText?: string;
-  fullScreen?: boolean;
   backdropClosable?: boolean;
   children: React.ReactNode;
+  size?: 'small' | 'medium' | 'large' | 'fullScreen';
 }
 
 const Modal: React.FC<ModalProps> = ({
@@ -28,10 +28,29 @@ const Modal: React.FC<ModalProps> = ({
   onCancel,
   confirmText = 'Confirm',
   cancelText = 'Cancel',
-  fullScreen = false,
+  size = 'medium',
   backdropClosable = true,
   children,
 }) => {
+  useEffect(() => {
+    const handleEsc = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        onClose();
+      }
+    };
+    document.addEventListener('keydown', handleEsc);
+    return () => document.removeEventListener('keydown', handleEsc);
+  }, [onClose]);
+
+  const sizeClassMap: Record<NonNullable<ModalProps['size']>, string> = {
+    small: styles.small,
+    medium: styles.medium,
+    large: styles.large,
+    fullScreen: styles.fullScreen,
+  };
+  
+  const sizeClass = sizeClassMap[size || 'medium'];
+
   if (!isOpen) return null;
 
   const handleBackdropClick = () => {
@@ -39,9 +58,15 @@ const Modal: React.FC<ModalProps> = ({
   };
 
   return createPortal(
-    <div className={styles.modalOverlay} onClick={handleBackdropClick}>
+    <div 
+      className={styles.modalOverlay}
+      onClick={handleBackdropClick}
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby={title ? 'modal-title' : undefined}
+    >
       <div
-        className={`${styles.modalContent} ${fullScreen ? styles.fullScreen : ''}`}
+        className={`${styles.modalContent} ${sizeClass}`}
         onClick={(e) => e.stopPropagation()}
       >
         {showCloseIcon && (
@@ -49,7 +74,7 @@ const Modal: React.FC<ModalProps> = ({
             &times;
           </button>
         )}
-        {title && <div className={styles.modalHeader}>{title}</div>}
+        {title && <div id="modal-title" className={styles.modalHeader}>{title}</div>}
         <div className={styles.modalBody}>{children}</div>
         {showActions && (
           <div className={styles.modalActions}>

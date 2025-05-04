@@ -24,6 +24,19 @@
   position: relative;
 }
 
+/* Sizes */
+.small {
+  max-width: 400px;
+}
+
+.medium {
+  max-width: 600px;
+}
+
+.large {
+  max-width: 800px;
+}
+
 .fullScreen {
   width: 100vw;
   height: 100vh;

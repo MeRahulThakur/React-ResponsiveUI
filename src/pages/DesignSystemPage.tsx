@@ -36,7 +36,7 @@ const DesignSystemPage = () => {
           onConfirm={handleConfirm}
           confirmText="Yes, continue"
           cancelText="Cancel"
-          fullScreen={false}
+          size="medium" // Try 'small', 'medium', 'large', 'fullScreen'
           backdropClosable
         >
           <p>Are you sure you want to continue with this action?</p>
