@@ -10,18 +10,41 @@
   justify-content: center;
   z-index: 1000;
   backdrop-filter: blur(2px);
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.fadeIn {
+  opacity: 1;
+}
+
+.fadeOut {
+  opacity: 0;
+  pointer-events: none;
 }
 
 .modalContent {
-  background-color: var(--background);
-  color: var(--text-color);
+  background-color: var(--background, #fff);
+  color: var(--text-color, #111);
   padding: 1.5rem;
   border-radius: 1rem;
   max-width: 600px;
   width: 90%;
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
-  animation: fadeIn 0.3s ease-in-out;
   position: relative;
+  transform: translateY(40px) scale(0.96);
+  opacity: 0;
+  transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.3s ease;
+}
+
+.slideIn {
+  transform: translateY(0) scale(1);
+  opacity: 1;
+}
+
+.slideOut {
+  transform: translateY(40px) scale(0.96);
+  opacity: 0;
 }
 
 /* Sizes */
@@ -40,9 +63,11 @@
 .fullScreen {
   width: 100vw;
   height: 100vh;
-  border-radius: 0;
   max-width: 100%;
+  max-height: 100vh;
+  border-radius: 0;
   padding: 2rem;
+  overflow-y: auto;
 }
 
 .modalHeader {
@@ -78,15 +103,4 @@
 
 .closeButton:hover {
   color: var(--text-color, #000);
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: scale(0.96);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
 }

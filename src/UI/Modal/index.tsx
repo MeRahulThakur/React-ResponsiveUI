@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from './Modal.module.css';
 import { createPortal } from 'react-dom';
 import Button from '../Button';
@@ -32,41 +32,54 @@ const Modal: React.FC<ModalProps> = ({
   backdropClosable = true,
   children,
 }) => {
-  useEffect(() => {
-    const handleEsc = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') {
-        onClose();
-      }
-    };
-    document.addEventListener('keydown', handleEsc);
-    return () => document.removeEventListener('keydown', handleEsc);
-  }, [onClose]);
+  const [isVisible, setIsVisible] = useState(false);
+  const [shouldRender, setShouldRender] = useState(isOpen);
 
+  // Map size prop to CSS classes
   const sizeClassMap: Record<NonNullable<ModalProps['size']>, string> = {
     small: styles.small,
     medium: styles.medium,
     large: styles.large,
     fullScreen: styles.fullScreen,
   };
-  
-  const sizeClass = sizeClassMap[size || 'medium'];
+  const sizeClass = sizeClassMap[size];
 
-  if (!isOpen) return null;
+  // Sync rendering state with open prop
+  useEffect(() => {
+    if (isOpen) {
+      setShouldRender(true);
+      requestAnimationFrame(() => setIsVisible(true)); // ensures animation runs
+    } else {
+      setIsVisible(false);
+      setTimeout(() => setShouldRender(false), 300); // delay matches CSS transition
+    }
+  }, [isOpen]);
+
+  // Escape key support
+  useEffect(() => {
+    const handleEsc = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') onClose();
+    };
+    document.addEventListener('keydown', handleEsc);
+    return () => document.removeEventListener('keydown', handleEsc);
+  }, [onClose]);
 
   const handleBackdropClick = () => {
     if (backdropClosable) onClose();
   };
 
+  if (!shouldRender) return null;
+
   return createPortal(
-    <div 
-      className={styles.modalOverlay}
+    <div
+      className={`${styles.modalOverlay} ${isVisible ? styles.fadeIn : styles.fadeOut}`}
       onClick={handleBackdropClick}
       role="dialog"
       aria-modal="true"
       aria-labelledby={title ? 'modal-title' : undefined}
     >
       <div
-        className={`${styles.modalContent} ${sizeClass}`}
+        className={`${styles.modalContent} ${sizeClass} ${isVisible ? styles.slideIn : styles.slideOut}`}
         onClick={(e) => e.stopPropagation()}
       >
         {showCloseIcon && (
