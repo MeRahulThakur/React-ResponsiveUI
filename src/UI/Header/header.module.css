@@ -7,7 +7,7 @@
   height: 4.5rem;
   background-color: var(--bg);
   color: var(--header-text);
-  z-index: 9999;
+  z-index: 999;
 }
 
 .sticky {
