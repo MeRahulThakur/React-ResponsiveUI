@@ -1,9 +1,10 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import Accordion from "../UI/Accordion/Accordion";
 import Button from "../UI/Button";
 import Modal from "../UI/Modal";
 import SnackBar from "../UI/SnackBar";
 import GroupedRadio from "../UI/Inputs/Group/GroupedRadio";
+import Popover from "../UI/Popover";
 
 interface Option {
   value: string;
@@ -23,6 +24,9 @@ const DesignSystemPage = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [snackOpen, setSnackOpen] = useState(false);
   const [anchorOrigin, setAnchorOrigin] = useState<'top-left' | 'top-center' | 'top-right' | 'bottom-left' | 'bottom-center' | 'bottom-right'>('bottom-left');
+  const [openPopover, setOpenPopover] = useState(false);
+  const buttonRef = useRef<HTMLButtonElement>(null);
+
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
   const handleConfirm = () => {
@@ -90,6 +94,18 @@ const DesignSystemPage = () => {
           <strong>Error:</strong> Something went wrong!
         </SnackBar>
       </div>
+      <h2>Popover</h2>
+      <div style={{ display: 'flex', gap: '1rem' }}>
+        <Button variant="outlined" color="default" onClick={() => setOpenPopover((prev) => !prev)} ref={buttonRef}>Toggle Popover</Button>
+        <Popover
+          isOpen={openPopover}
+          onClose={() => setOpenPopover(false)}
+          preferredPlacement="bottom"
+          anchorRef={buttonRef}
+        >
+          <p>This is a smart-positioned content.</p>
+        </Popover>
+    </div>
     </div>
   )
 };

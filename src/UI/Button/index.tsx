@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { forwardRef } from 'react';
 import styles from './Button.module.css';
 
 type ButtonVariant = 'text' | 'contained' | 'outlined';
@@ -22,7 +22,8 @@ interface ButtonProps {
   ariaLabel?: string;
 }
 
-const Button: React.FC<ButtonProps> = ({
+// Using forwardRef to expose the DOM element
+const Button = forwardRef<HTMLButtonElement, ButtonProps>(({
   children,
   onClick,
   variant = 'text',
@@ -36,7 +37,7 @@ const Button: React.FC<ButtonProps> = ({
   startIcon,
   endIcon,
   ariaLabel,
-}) => {
+}, ref) => {
   const handleClick = () => {
     if (!disabled && !loading) {
       onClick();
@@ -57,6 +58,7 @@ const Button: React.FC<ButtonProps> = ({
 
   return (
     <button
+      ref={ref}
       type={type}
       onClick={handleClick}
       className={classList}
@@ -74,6 +76,7 @@ const Button: React.FC<ButtonProps> = ({
       )}
     </button>
   );
-};
+});
+Button.displayName = 'Button'; // Important for debugging and HMR
 
 export default Button;
