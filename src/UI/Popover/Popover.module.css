@@ -1,0 +1,120 @@
+.popover {
+  position: absolute;
+  background: var(--background);
+  border: 1px solid var(--accent-color);
+  border-radius: 0.5rem;
+  padding: 1rem;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  opacity: 0;
+  transform: scale(0.95);
+  z-index: 1000;
+}
+
+.show {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.hide {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Directional Slide-in Animations */
+.top {
+  transform: translateY(10px);
+}
+.top.show {
+  transform: translateY(0);
+}
+
+.right {
+  transform: translateX(-10px);
+}
+.right.show {
+  transform: translateX(0);
+}
+
+.bottom {
+  transform: translateY(-10px);
+}
+.bottom.show {
+  transform: translateY(0);
+}
+
+.left {
+  transform: translateX(10px);
+}
+.left.show {
+  transform: translateX(0);
+}
+
+.arrow {
+  width: 0;
+  height: 0;
+  position: absolute;
+}
+
+/* Top arrow: points down */
+.arrow-top {
+  bottom: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  border-top: 8px solid var(--accent-color);
+}
+
+/* Bottom arrow: points up */
+.arrow-bottom {
+  top: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  border-bottom: 8px solid var(--accent-color);
+}
+
+/* Left arrow: points right */
+.arrow-left {
+  top: 50%;
+  right: -8px;
+  transform: translateY(-50%);
+  border-top: 8px solid transparent;
+  border-bottom: 8px solid transparent;
+  border-left: 8px solid var(--accent-color);
+}
+
+/* Right arrow: points left */
+.arrow-right {
+  top: 50%;
+  left: -8px;
+  transform: translateY(-50%);
+  border-top: 8px solid transparent;
+  border-bottom: 8px solid transparent;
+  border-right: 8px solid var(--accent-color);
+}
+
+/* Content */
+.content {
+  position: relative;
+  z-index: 1;
+}
+
+/* Close Button */
+.closeButton {
+  position: absolute;
+  top: 0.25rem;
+  right: 0.5rem;
+  background: none;
+  border: none;
+  font-size: 1.25rem;
+  cursor: pointer;
+  color: var(--text-muted, #666);
+  z-index: 2;
+}
+
+.closeButton:hover {
+  color: var(--text-color, #000);
+}
