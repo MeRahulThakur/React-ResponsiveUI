@@ -33,16 +33,44 @@
 }
 
 .logo_text {
-  font-weight: 200;
   font-size: 2.5rem;
+  font-weight: 300;
+  text-transform: uppercase;
+  letter-spacing: 2px;
   color: var(--header-text);
+  display: flex;
+  align-items: center;
 }
 
 span.grad {
-  font-weight: 700;
-  background: linear-gradient(to right, #f93d99, #7c54f1);
+  background: linear-gradient(
+    270deg,
+    #ff5f6d,
+    #ffc371,
+    #47e6f2,
+    #845ec2,
+    #ff6f91,
+    #f9f871
+  );
+  background-size: 600% 600%;
   background-clip: text;
-  color: transparent;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: gradientShift 5s ease infinite;
+  font-weight: 600;
+  margin-right: 0.2rem;
+}
+
+@keyframes gradientShift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
 }
 
 .hamburger {
