@@ -1,5 +1,6 @@
 //import { useTheme } from "../../context/useTheme";
 import ThemeToggle from "../Theme/ThemeToggle";
+import Tooltip from "../Tooltip";
 import styles from "./header.module.css"
 import { LuPanelLeftOpen, LuPanelLeftClose } from 'react-icons/lu';
 import { Link } from 'react-router-dom';
@@ -18,9 +19,11 @@ const Header = ({isSidebarOpen, isSticky, onMenuToggle}: HeaderProps) => {
       <div className={styles.left}>
         {/* Hamburger */}
         {onMenuToggle && (
-          <button className={styles.hamburger} onClick={onMenuToggle}>
-           {isSidebarOpen?<LuPanelLeftClose />:<LuPanelLeftOpen />}
-          </button>
+          <Tooltip content={`${isSidebarOpen?'Close':'Open'} sidebar`} placement="right">
+            <button className={styles.hamburger} onClick={onMenuToggle}>
+              {isSidebarOpen?<LuPanelLeftClose />:<LuPanelLeftOpen />}
+            </button>
+          </Tooltip>
         )}
         <Link to="/"><img src="vite.svg" alt="Logo" width="50" /></Link>
         <div className={styles.logo}>
