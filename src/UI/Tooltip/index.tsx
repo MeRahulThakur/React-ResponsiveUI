@@ -10,6 +10,10 @@ interface TooltipProps {
   children: React.ReactNode;
 }
 
+const isTouchDevice = () =>
+  typeof window !== 'undefined' &&
+  ('ontouchstart' in window || navigator.maxTouchPoints > 0);
+
 const Tooltip: React.FC<TooltipProps> = ({ content, placement = 'top', children }) => {
   const [visible, setVisible] = useState(false);
   const [position, setPosition] = useState({ top: 0, left: 0 });
@@ -45,11 +49,26 @@ const Tooltip: React.FC<TooltipProps> = ({ content, placement = 'top', children 
     }
   }, [visible, placement]);
 
+  useEffect(() => {
+    if (visible && isTouchDevice()) {
+      const timer = setTimeout(() => setVisible(false), 2500);
+      return () => clearTimeout(timer);
+    }
+  }, [visible]);
+
+  const eventHandlers = isTouchDevice()
+    ? {
+        onClick: () => setVisible(prev => !prev),
+      }
+    : {
+        onMouseEnter: () => setVisible(true),
+        onMouseLeave: () => setVisible(false),
+      };
+
   return (
     <span
       ref={wrapperRef}
-      onMouseEnter={() => setVisible(true)}
-      onMouseLeave={() => setVisible(false)}
+      {...eventHandlers}
       style={{ position: 'relative', display: 'inline-block' }}
     >
       {children}
@@ -62,6 +81,8 @@ const Tooltip: React.FC<TooltipProps> = ({ content, placement = 'top', children 
             top: position.top,
             left: position.left,
             zIndex: 1000,
+            maxWidth: '80vw',
+            wordBreak: 'break-word',
           }}
         >
           {content}

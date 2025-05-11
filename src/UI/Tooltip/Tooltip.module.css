@@ -17,3 +17,44 @@
   opacity: 1;
   transform: scale(1);
 }
+
+/* Arrow styling (optional if you plan to support it later) */
+.tooltip::after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 0;
+  border-style: solid;
+}
+
+.tooltip.top::after {
+  bottom: -6px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: 6px 6px 0 6px;
+  border-color: var(--tooltip-bg, #333) transparent transparent transparent;
+}
+
+.tooltip.bottom::after {
+  top: -6px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: 0 6px 6px 6px;
+  border-color: transparent transparent var(--tooltip-bg, #333) transparent;
+}
+
+.tooltip.left::after {
+  top: 50%;
+  right: -6px;
+  transform: translateY(-50%);
+  border-width: 6px 0 6px 6px;
+  border-color: transparent transparent transparent var(--tooltip-bg, #333);
+}
+
+.tooltip.right::after {
+  top: 50%;
+  left: -6px;
+  transform: translateY(-50%);
+  border-width: 6px 6px 6px 0;
+  border-color: transparent var(--tooltip-bg, #333) transparent transparent;
+}
