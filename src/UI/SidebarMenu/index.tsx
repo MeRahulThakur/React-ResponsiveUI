@@ -3,6 +3,7 @@ import { NavLink } from 'react-router-dom';
 import './SidebarMenu.css';
 import { FiMessageSquare, FiClock, FiSettings, FiX } from 'react-icons/fi';
 import ThemeToggle from '../Theme/ThemeToggle';
+import Tooltip from '../Tooltip';
 
 type MenuItem = {
   id: number;
@@ -47,9 +48,11 @@ const SidebarMenu: React.FC<SidebarMenuProps> = ({ isOpen, onClose }) => {
     >
       <div className="sidebar-header">
         <h2 className="sidebar-title">Menu</h2>
-        <button className="icon-btn" onClick={onClose} aria-label="Close menu">
-          <FiX />
-        </button>
+        <Tooltip content="Close menu" placement="bottom">
+          <button className="icon-btn" onClick={onClose} aria-label="Close menu">
+            <FiX />
+          </button>
+        </Tooltip>
       </div>
 
       <ul className="sidebar-list">
