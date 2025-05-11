@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import styles from './DynamicTabPanel.module.css';
 import Button from '../../Button';
 import TextInput from '../TextInput/TextInput';
 import { useDebounce } from '../../../hooks/useDebounce';
+import { throttle } from '../../../utility/helpers';
 
 type Tab = {
   label: string;
@@ -35,6 +36,58 @@ const DynamicTabPanel: React.FC<DynamicTabPanelProps> = ({
 
   const debouncedTabInputs = useDebounce(tabInputs, 300);
   const debouncedErrors = useDebounce(errors, 300);
+  const [sidebarWidth, setSidebarWidth] = useState(220);
+  const resizerRef = useRef<HTMLDivElement>(null);
+  const sidebarRef = useRef<HTMLDivElement>(null);
+  const startXRef = useRef(0);
+  const startWidthRef = useRef(220);
+
+  useEffect(() => {
+    const throttledHandleMouseMove = throttle((clientX: number) => {
+      const deltaX = clientX - startXRef.current;
+      const newWidth = startWidthRef.current + deltaX;
+      if (newWidth > 100 && newWidth < 600) {
+        setSidebarWidth(newWidth);
+      }
+    }, 16);
+
+    const handleMouseMove = (e: MouseEvent | TouchEvent) => {
+      const clientX = 'touches' in e ? e.touches[0].clientX : e.clientX;
+      throttledHandleMouseMove(clientX);
+    };
+
+    const stopResize = () => {
+      document.removeEventListener('mousemove', handleMouseMove);
+      document.removeEventListener('mouseup', stopResize);
+      document.removeEventListener('touchmove', handleMouseMove);
+      document.removeEventListener('touchend', stopResize);
+    };
+
+    const startResize = (e: MouseEvent | TouchEvent) => {
+      e.preventDefault();
+      const clientX = 'touches' in e ? e.touches[0].clientX : e.clientX;
+      startXRef.current = clientX;
+      startWidthRef.current = sidebarRef.current?.offsetWidth || 250;
+      document.addEventListener('mousemove', handleMouseMove);
+      document.addEventListener('mouseup', stopResize);
+      document.addEventListener('touchmove', handleMouseMove);
+      document.addEventListener('touchend', stopResize);
+    };
+
+    const resizer = resizerRef.current;
+    if (resizer) {
+      resizer.addEventListener('mousedown', startResize);
+      resizer.addEventListener('touchstart', startResize, { passive: false });
+    }
+
+    return () => {
+      if (resizer) {
+        resizer.removeEventListener('mousedown', startResize);
+        resizer.removeEventListener('touchstart', startResize);
+      }
+      stopResize();
+    };
+  }, []);
 
   useEffect(() => {
     if (!tabData) return;
@@ -67,7 +120,7 @@ const DynamicTabPanel: React.FC<DynamicTabPanelProps> = ({
       }
       return current;
     });
-  }, [tabData]);  
+  }, [tabData]);
 
   useEffect(() => {
     onValueChange({
@@ -142,7 +195,7 @@ const DynamicTabPanel: React.FC<DynamicTabPanelProps> = ({
 
   return (
     <div className={`${styles.container} ${!isValid && styles.invalid} ${styles[orientation]}`} id={id}>
-      <div className={styles.sidebar}>
+      <div ref={sidebarRef} className={styles.sidebar} style={{ width: orientation==='row'?sidebarWidth: '100%' }}>
         {tabs.length > 0 ? (
           tabs.map(tab => (
             <div
@@ -167,7 +220,7 @@ const DynamicTabPanel: React.FC<DynamicTabPanelProps> = ({
           <div className={styles.noTabs}>No Tabs</div>
         )}
       </div>
-
+      {orientation==='row' && <div ref={resizerRef} className={styles.resizer} />}
       <div className={styles.content}>
         {activeTab ? (
           <>

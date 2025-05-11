@@ -1,6 +1,6 @@
 .container {
   display: flex;
-  height: 400px; /* Ensure the container has a fixed height */
+  height: 100%; /* Ensure the container has a fixed height */
   border: 1px solid var(--accent-color);
   border-radius: 12px;
   overflow: hidden;
@@ -20,7 +20,7 @@
 
 /* Left Sidebar */
 .sidebar {
-  width: 220px;
+  /* width: 220px; */
   /* background-color: var(--background); */
   background-color: inherit;
   border-right: 1px solid var(--accent-color);
@@ -82,6 +82,27 @@
   padding: 1rem;
   text-align: center;
   color: var(--muted-text);
+}
+
+.resizer {
+  width: 2.2px;
+  cursor: col-resize;
+  background-color: transparent;
+  transition: background-color 0.2s;
+  position: relative;
+  z-index: 1;
+}
+
+.resizer::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 2px;
+  height: 40%;
+  background-color: light-dark(var(--text-color, #333b3c),var(--text-color, #efefec) );
+  transform: translate(-50%, -50%);
+  border-radius: 1px;
 }
 
 /* Right Content */

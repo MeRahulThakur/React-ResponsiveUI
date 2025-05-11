@@ -27,3 +27,39 @@ export const convertDateToLocalTimezone = (dateString: string): string | null =>
     return null;
   }
 };
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export function throttle<T extends (...args: any[]) => void>(func: T, limit: number): T & { cancel: () => void } {
+  let lastCall = 0;
+  let timeout: ReturnType<typeof setTimeout> | null = null;
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const throttled = function (this: any, ...args: any[]) {
+    const now = Date.now();
+    const remaining = limit - (now - lastCall);
+
+    if (remaining <= 0) {
+      if (timeout) {
+        clearTimeout(timeout);
+        timeout = null;
+      }
+      lastCall = now;
+      func.apply(this, args);
+    } else if (!timeout) {
+      timeout = setTimeout(() => {
+        lastCall = Date.now();
+        timeout = null;
+        func.apply(this, args);
+      }, remaining);
+    }
+  } as T & { cancel: () => void };
+
+  throttled.cancel = () => {
+    if (timeout) {
+      clearTimeout(timeout);
+      timeout = null;
+    }
+  };
+
+  return throttled;
+}
